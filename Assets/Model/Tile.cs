@@ -10,7 +10,7 @@ public class Tile {
     };
     public int AmountofTile = Enum.GetNames(typeof(TileType)).Length;
 
-
+    public GameObject actualObj;
     TileType type = TileType.MeadowGrass;
 
     Action<Tile> cbTileTypeChanged;
