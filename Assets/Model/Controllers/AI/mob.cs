@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-/*public class mob : MonoBehaviour
+public class mob : MonoBehaviour
 {
 
     bool isBaby;
@@ -57,7 +57,6 @@ using System;
 
         if (time <= 60)
         {
-            clusterHerd();
             time = 0;
             Debug.Log("Meem");
         }
@@ -107,32 +106,6 @@ using System;
         mob mob_data = mobs[id];
 
         return mob_data;
-    }
-
-    
-
-    public void clusterHerd()
-    {
-        for (int i = 0; i < MobID; i++)
-        {
-            mob currMob = getMobFromID(i);
-            for (int e = 0; e <= MobID; e++)
-            {
-                if (e != i && currMob.HerdID == getMobFromID(e).HerdID)
-                {
-                    mob currMob2 = getMobFromID(e);
-
-                    int[] coord1 = getMobCoord(i);
-                    int[] coord2 = getMobCoord(e);
-
-                    int[] coord = getDistanceBetweenCoords(coord1[0], coord1[1], coord2[0], coord2[1]);
-
-                    moveMobToCoord(i, (coord[0] / 2), (coord[1] / 2));
-                    moveMobToCoord(e, (coord[0] / 2), (coord[1] / 2));
-
-                }
-            }
-        }
     }
 
     public int[] getDistanceBetweenCoords(int x1, int y1, int x2, int y2)
@@ -188,4 +161,3 @@ using System;
         currMob.transform.Translate(x, y, 1);
     }
 }
-*/

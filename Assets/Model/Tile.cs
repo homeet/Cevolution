@@ -30,7 +30,6 @@ public class Tile {
             }
         }
     }
-    public int Rarity { get; protected set; }
     LooseObject looseObject;
     InstalledObject installedObject;
 

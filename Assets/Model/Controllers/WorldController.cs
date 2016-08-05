@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour {
 
@@ -18,10 +19,22 @@ public class WorldController : MonoBehaviour {
     //installedObjects
     public Sprite StoneWall;
 
+    public List<Villager> villagers= new List<Villager>();
 
 
-	// Use this for initialization
-	void Start () {
+    public int getMid(int a, int b)
+    {
+        int mid = a + b / 2;
+        return mid;
+    }
+    public int getMid(int a)
+    {
+        int mid = a / 2;
+        return mid;
+    }
+
+    // Use this for initialization
+    void Start () {
         //empty world
         world = new World();
         Instance = this;
@@ -39,6 +52,12 @@ public class WorldController : MonoBehaviour {
         }
         //not so empty
         world.GenerateWorldTiles();
+        for (int i = 0; i < 3; i++)
+        {
+            Villager villager = new Villager(getMid(world.Width), getMid(world.Height));
+            villagers.Add(villager);
+        }
+        
     }
 
 
@@ -88,4 +107,5 @@ public class WorldController : MonoBehaviour {
         return world.GetInstObjectAt(x, y);
     }
 
+   
 }
