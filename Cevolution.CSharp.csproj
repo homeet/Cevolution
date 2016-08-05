@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Model\Controllers\AI\Villager.cs" />
     <Compile Include="Assets\Model\Controllers\AI\mob.cs" />
     <Compile Include="Assets\Model\Controllers\AiController.cs" />
     <Compile Include="Assets\Model\Controllers\InputController.cs" />
