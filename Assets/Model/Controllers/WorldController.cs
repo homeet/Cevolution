@@ -11,7 +11,7 @@ public class WorldController : MonoBehaviour {
     public World world { get; protected set; }
 
     //tiles
-    public Sprite LimestoneSprite;
+    public Sprite stoneSprite;
     public Sprite MeadowGrassSprite;
     public Sprite WaterSprite;
 
@@ -52,9 +52,9 @@ public class WorldController : MonoBehaviour {
     void OnTileTypeChanged(Tile tile_data , GameObject tile_go)
     {
 
-        if (tile_data.Type == Tile.TileType.Limestone)
+        if (tile_data.Type == Tile.TileType.stone)
         {
-            tile_go.GetComponent<SpriteRenderer>().sprite = LimestoneSprite;
+            tile_go.GetComponent<SpriteRenderer>().sprite = stoneSprite;
         }
         else if (tile_data.Type == Tile.TileType.MeadowGrass)
         {

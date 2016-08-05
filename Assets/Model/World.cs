@@ -7,9 +7,9 @@ public class World : MonoBehaviour
 
 
     Tile[,] tiles;
+    Tile tile;
     InstalledObject[,] InstObj;
     int width, height;
-    int StoneChance = 5;
 
     public int Width
     {
@@ -26,7 +26,7 @@ public class World : MonoBehaviour
         }
     }
 
-    public World(int width = 100, int height = 100)
+    public World(int width = 256, int height = 256)
     {
         this.width = width;
         this.height = height;
@@ -42,40 +42,6 @@ public class World : MonoBehaviour
         }
         Debug.Log("World created with " + tiles.Length + " Tiles");
     }
-    //GENWORLD
-    public void GenerateWorldTiles()
-    {
-        //Base
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                tiles[x, y].Type = Tile.TileType.MeadowGrass;
-
-
-            }
-        }
-        //Everything Else
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                ResourceGen(x, y);
-
-
-
-
-
-
-
-
-
-            }
-        }
-
-    }
-
-
     public Tile GetTileAt(int x, int y)
     {
         if (x > width - 1 || x < 0 || y > height - 1 || y < 0)
@@ -98,9 +64,62 @@ public class World : MonoBehaviour
 
         }
         else {
-            return InstObj[x,y];
+            return InstObj[x, y];
         }
     }
+
+
+
+    //GENWORLD
+    public void GenerateWorldTiles()
+    {
+        //Base
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                tiles[x, y].Type = Tile.TileType.MeadowGrass;
+
+
+            }
+        }
+        //Everything Else
+
+
+
+        float scale = 30f;
+        int randomShiftx = Random.Range(0, 200000);
+        int randomShifty = Random.Range(0, 200000);
+        float waterChance = 0.2f;
+        float stoneChance = 0.5f;
+        for (int x = 0; x < width; x++)
+        {
+
+            for (int y = 0; y < height; y++)
+            {
+                float Perlin = Mathf.PerlinNoise((x/scale+randomShiftx) , (y/scale + randomShifty));
+                if (Perlin < waterChance)
+                {
+                    
+                    tiles[x, y].Type = Tile.TileType.Water;
+                }
+                else if (Perlin > waterChance && Perlin < stoneChance)
+                {
+                    tiles[x, y].Type = Tile.TileType.MeadowGrass;
+                }
+                else
+                {
+                    tiles[x, y].Type = Tile.TileType.stone;
+                }
+
+
+            }
+        }
+
+    }
+
+
+    
 
 
 
@@ -110,26 +129,9 @@ public class World : MonoBehaviour
     //STONES
 
 
-
-
-    public void ResourceGen(int x, int y)
-    {
-        LimeStoneGen(x, y);
-    }
-
-
-
-public void LimeStoneGen(int x,int y)
-{
-        
-        if (Random.Range(0, 20) == 0)
-    {
-            
-    }
 }
 
 
-    
 
 
 
@@ -143,11 +145,5 @@ public void LimeStoneGen(int x,int y)
 
 
 
-
-
-
-
-
-}
 
 

@@ -6,9 +6,10 @@ public class Tile {
 
 	public enum TileType
     {
-        MeadowGrass,Limestone,Water
+        MeadowGrass,stone,Water
     };
     public int AmountofTile = Enum.GetNames(typeof(TileType)).Length;
+
 
     TileType type = TileType.MeadowGrass;
 
@@ -29,6 +30,7 @@ public class Tile {
             }
         }
     }
+    public int Rarity { get; protected set; }
     LooseObject looseObject;
     InstalledObject installedObject;
 
