@@ -47,6 +47,7 @@ public class WorldController : MonoBehaviour {
         //empty world
         world = new World();
         Instance = this;
+        Camera.main.transform.position = createVector3(getMid(world.Width), getMid(world.Height), -1);
         
         //game object for every tile
         for (int x = 0; x < world.Width; x++){
@@ -88,15 +89,21 @@ public class WorldController : MonoBehaviour {
     }
 
 
-    float time = 2f;
+    float time = 0f;
     // Update is called once per frame
     void Update () {
-        foreach (GameObject o in world.chunks) {
-            if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > Camera.main.orthographicSize+60) {
-                o.SetActive(false);
-            } else o.SetActive(true);
+
+        foreach (GameObject o in world.chunks)
+        {
+
+                if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > Camera.main.orthographicSize + 30)
+                {
+                    o.SetActive(false);
+                }
+                else o.SetActive(true);
         }
-	}
+        }
+
 
     void OnTileTypeChanged(Tile tile_data , GameObject tile_go)
     {

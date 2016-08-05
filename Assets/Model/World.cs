@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class World : MonoBehaviour
 {
-    public int chunkLength = 32;
+    public int chunkLength = 16;
     public GameObject[,] chunks;
     Tile[,] tiles;
     Tile tile;
@@ -32,7 +32,7 @@ public class World : MonoBehaviour
         this.height = height;
 
         tiles = new Tile[width, height];
-        chunks = new GameObject[width / 32, height / 32];
+        chunks = new GameObject[width / chunkLength, height / chunkLength];
 
         for (int x = 0; x < width; x++)
         {
