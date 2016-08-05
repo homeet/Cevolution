@@ -14,13 +14,17 @@ public class InputController : MonoBehaviour
     //TEXT
     Text text;
 
+    public GameObject TileCursorPF;
 
-    
-    
+    Vector3 dragStartPosition;
+    List<GameObject> dragPreviewGameObjects;
+
+
+
 
     List<GameObject> Cursor_gos = new List<GameObject>();
-    public int DistanceX = 75;
-    public int DistanceY = 75;
+    public int DistanceX = 10;
+    public int DistanceY = 10;
 
     public Sprite XCursor, TileCursor;
 
@@ -32,6 +36,7 @@ public class InputController : MonoBehaviour
     {
         World world = (World)FindObjectOfType(typeof(World));
         text = (Text)FindObjectOfType(typeof(Text));
+        dragPreviewGameObjects = new List<GameObject>();
     }
 
 
@@ -46,8 +51,19 @@ public class InputController : MonoBehaviour
         CameraControl(x, y);
         InterfaceUI();
         WorldInteraction((int)Mathf.Round(currFramePosition[0]), (int)Mathf.Round(currFramePosition[1]));
-        
+
+        lastFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        lastFramePosition.z = 0;
+
     }
+    void OnMouseMove()
+    {
+        if ((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
+        {
+
+        }
+    }
+
     float Flip(float min, float max, float num)
     {
         return (max + min) - num;
@@ -55,30 +71,116 @@ public class InputController : MonoBehaviour
     void CameraControl(int x, int y)
     {
 
+        int zoomMult = 5;
 
-
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) //back
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
 
 
-            Camera.main.transform.Translate(0, 0, -1);
+            Camera.main.orthographicSize -= (Input.GetAxis("Mouse ScrollWheel") * zoomMult);
         }
-    
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize >= 1)
         {
-            if (Camera.main.transform.position.z >= 2)
-            {
-                Camera.main.transform.Translate(0, 0, 1);
-            }
+            Camera.main.orthographicSize -= (Input.GetAxis("Mouse ScrollWheel") * zoomMult);
 
         }
         ScreenScroll(x, y);
         KeyboardScroll(x, y);
     }
 
-    
+    void UpdateDragging()
+    {
+        // Start Drag
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragStartPosition = currFramePosition;
+        }
 
-  
+        int start_x = (int)Mathf.Round(dragStartPosition.x);
+        int end_x = (int)Mathf.Round(currFramePosition.x);
+        int start_y = (int)Mathf.Round(dragStartPosition.y);
+        int end_y = (int)Mathf.Round(currFramePosition.y);
+
+        // Biggo Flippo
+        if (end_x < start_x)
+        {
+            int tmp = end_x;
+            end_x = start_x;
+            start_x = tmp;
+        }
+        if (end_y < start_y)
+        {
+            int tmp = end_y;
+            end_y = start_y;
+            start_y = tmp;
+        }
+
+        // Clean up old drag previews
+        while (dragPreviewGameObjects.Count > 0)
+        {
+            GameObject go = dragPreviewGameObjects[0];
+            dragPreviewGameObjects.RemoveAt(0);
+            SimplePool.Despawn(go);
+        }
+        
+        if (Input.GetMouseButton(0))
+        {
+            // Display a preview of the drag area
+            for (int x = start_x; x <= end_x; x++)
+            {
+                for (int y = start_y; y <= end_y; y++)
+                {
+                    Tile t = WorldController.Instance.world.GetTileAt(x, y);
+                    if (t != null)
+                    {
+                        // Display the building hint on top of this tile position
+                        GameObject go = SimplePool.Spawn(TileCursorPF, new Vector3(x, y, 0), Quaternion.identity);
+                        go.transform.SetParent(this.transform, true);
+                        dragPreviewGameObjects.Add(go);
+                        
+                        
+                    }
+                }
+            }
+            
+            
+                    
+
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+
+            // Loop through all the tiles
+            for (int x2 = start_x; x2 <= end_x; x2++)
+            {
+                for (int y2 = start_y; y2 <= end_y; y2++)
+                {
+                    Tile t = WorldController.Instance.world.GetTileAt(x2, y2);
+                    if (t != null)
+                    {
+                        t.Type = Tile.TileType.Water;
+                    }
+                }
+            }
+        }
+    }
+
+    public Vector3 createVector3(int x,int y, int z)
+    {
+        Vector3 vector;
+        vector.x = x;
+        vector.y = y;
+        vector.z = z;
+        return vector;
+    }
+
+    public int getMid(int a,int b)
+    {
+        int mid = a + b / 2;
+        return mid;
+    }
+
 
     public void ScreenScroll(int x, int y)
     {
@@ -108,7 +210,7 @@ public class InputController : MonoBehaviour
         }
     }
 
-    public void KeyboardScroll(int x,int y)
+    public void KeyboardScroll(int x, int y)
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -136,28 +238,19 @@ public class InputController : MonoBehaviour
         }
     }
 
-    public void WorldInteraction(int x,int y)
+    public void WorldInteraction(int x, int y)
     {
-        while(Input.GetMouseButtonDown(0))
-            {
-                
-            GameObject Cursor_go = new GameObject("Cursor " + x + "_" + y);
-            Cursor Cursor_data = new Cursor(x, y);
-            Cursor_data.SetSprite(x, y,Cursor_go);
-            Tile t = WorldController.Instance.world.GetTileAt(x, y);
-            Cursor_go.AddComponent<SpriteRenderer>();
-            Cursor_gos.Add(Cursor_go);
-                Cursor_go.GetComponent<SpriteRenderer>().sprite = TileCursor;
-                //Cursor_go.GetComponent<SpriteRenderer>().sprite = XCursor;
-            Cursor_go.transform.position = new Vector3(x, y, -1);
-            text.text = x + "_" + y;
-            text.enabled = true;
-        }
+        UpdateDragging();
 
-        
-      
+
+
+
     }
 
+    public void OnMouseDrag()
+    {
+
+    }
 
 
 
@@ -167,7 +260,7 @@ public class InputController : MonoBehaviour
 
 
 
-        
+
     }
 
 
