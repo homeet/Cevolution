@@ -91,7 +91,7 @@ public class World : MonoBehaviour
         int randomShiftx = Random.Range(0, 200000);
         int randomShifty = Random.Range(0, 200000);
         float waterChance = 0.2f;
-        float stoneChance = 0.5f;
+        float stoneChance = 0.6f;
         for (int x = 0; x < width; x++)
         {
 
@@ -106,6 +106,7 @@ public class World : MonoBehaviour
                 else if (Perlin > waterChance && Perlin < stoneChance)
                 {
                     tiles[x, y].Type = Tile.TileType.MeadowGrass;
+                    
                 }
                 else
                 {
