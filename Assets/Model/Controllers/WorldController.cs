@@ -15,6 +15,7 @@ public class WorldController : MonoBehaviour {
     public Sprite stoneSprite;
     public Sprite MeadowGrassSprite;
     public Sprite WaterSprite;
+    public Sprite Villager;
 
     //installedObjects
     public Sprite StoneWall;
@@ -31,6 +32,14 @@ public class WorldController : MonoBehaviour {
     {
         int mid = a / 2;
         return mid;
+    }
+    public Vector3 createVector3(int x, int y, int z)
+    {
+        Vector3 vector;
+        vector.x = x;
+        vector.y = y;
+        vector.z = z;
+        return vector;
     }
 
     // Use this for initialization
@@ -83,7 +92,7 @@ public class WorldController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         foreach (GameObject o in world.chunks) {
-            if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > 60) {
+            if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > Camera.main.orthographicSize+60) {
                 o.SetActive(false);
             } else o.SetActive(true);
         }
