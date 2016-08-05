@@ -68,11 +68,11 @@
     <Compile Include="Assets\Model\Controllers\InputController.cs" />
     <Compile Include="Assets\Model\Controllers\MouseCursors\TileCursor.cs" />
     <Compile Include="Assets\Model\Controllers\WorldController.cs" />
-    <Compile Include="Assets\Model\NewBehaviourScript.cs" />
     <Compile Include="Assets\Model\Objects\InstalledObject.cs" />
     <Compile Include="Assets\Model\Objects\LooseObject.cs" />
     <Compile Include="Assets\Model\Tile.cs" />
     <Compile Include="Assets\Model\World.cs" />
+    <Compile Include="Assets\Scripts\SimplePool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
