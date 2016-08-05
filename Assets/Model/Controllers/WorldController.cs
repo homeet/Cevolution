@@ -21,6 +21,7 @@ public class WorldController : MonoBehaviour {
     public Sprite StoneWall;
 
     public List<Villager> villagers= new List<Villager>();
+    
 
 
     public int getMid(int a, int b)

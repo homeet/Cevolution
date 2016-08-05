@@ -58,10 +58,7 @@ public class InputController : MonoBehaviour
     }
     void OnMouseMove()
     {
-        if ((Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
-        {
-
-        }
+        
     }
 
     float Flip(float min, float max, float num)
@@ -156,11 +153,9 @@ public class InputController : MonoBehaviour
             {
                 for (int y2 = start_y; y2 <= end_y; y2++)
                 {
-                    Tile t = WorldController.Instance.world.GetTileAt(x2, y2);
-                    if (t != null)
-                    {
-                        t.Type = Tile.TileType.Water;
-                    }
+                    
+                    //InstalledObject Fence = InstalledObject.InstalledObjects.Fence;
+
                 }
             }
         }

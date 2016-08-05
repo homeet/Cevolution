@@ -5,10 +5,15 @@ public class InstalledObject{
 
     public enum InstalledObjects
     {
-        StoneWall
+        StoneWall,Fence
     }
-
     int x, y,type;
+
+
+
+
+
+
     public int X
     {
         get
