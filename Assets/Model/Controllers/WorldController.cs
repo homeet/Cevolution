@@ -10,7 +10,7 @@ public class WorldController : MonoBehaviour {
     public static WorldController Instance { get; protected set; }
 
     public World world { get; protected set; }
-
+    public Sprite Villager;
     //tiles
     public Sprite stoneSprite;
     public Sprite MeadowGrassSprite;
@@ -107,5 +107,14 @@ public class WorldController : MonoBehaviour {
         return world.GetInstObjectAt(x, y);
     }
 
-   
+    public Vector3 createVector3(int x, int y, int z)
+    {
+        Vector3 vector;
+        vector.x = x;
+        vector.y = y;
+        vector.z = z;
+        return vector;
+    }
+
+
 }

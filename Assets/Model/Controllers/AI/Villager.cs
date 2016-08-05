@@ -9,6 +9,7 @@ public class Villager : MonoBehaviour {
     public int x, y;
 
     List<GameObject> villager_gos = new List<GameObject>();
+
     void Start () {
 
     }
@@ -30,7 +31,9 @@ public class Villager : MonoBehaviour {
     {
         GameObject villager_go = new GameObject();
         villager_gos.Add(villager_go);
-        
+        villager_go.AddComponent<SpriteRenderer>().sprite = WorldController.Instance.Villager;
+        villager_go.transform.position = WorldController.Instance.createVector3(x, y, 1);
+        villager_go.transform.SetParent(this.transform, true);
     }
 
 
