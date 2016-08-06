@@ -8,13 +8,19 @@ public class Tile {
     {
         MeadowGrass,stone,Water
     };
+    public enum InstalledObjectType
+    {
+        StoneWall
+    }
+
     public int AmountofTile = Enum.GetNames(typeof(TileType)).Length;
 
     public GameObject actualObj;
     TileType type = TileType.MeadowGrass;
 
     Action<Tile> cbTileTypeChanged;
-    
+    Action<InstalledObject> cbInstChanged;
+
     public TileType Type
     {
         get
@@ -30,6 +36,7 @@ public class Tile {
             }
         }
     }
+    public InstalledObjectType iotype;
     LooseObject looseObject;
     InstalledObject installedObject;
 
@@ -66,5 +73,14 @@ public class Tile {
     public void UnregisterTileTypeChangedcb(Action<Tile> cb)
     {
         cbTileTypeChanged -= cb;
+    }
+
+    public void RegisterInstChangedcb(Action<InstalledObject> cb)
+    {
+        cbInstChanged += cb;
+    }
+    public void UnregisterInstChangedcb(Action<InstalledObject> cb)
+    {
+        cbInstChanged -= cb;
     }
 }

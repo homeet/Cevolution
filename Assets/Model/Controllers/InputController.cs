@@ -70,7 +70,7 @@ public class InputController : MonoBehaviour
 
         int zoomMult = 5;
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.orthographicSize <= 20)
         {
 
 
@@ -153,13 +153,16 @@ public class InputController : MonoBehaviour
             {
                 for (int y2 = start_y; y2 <= end_y; y2++)
                 {
-                    
-                    //InstalledObject Fence = InstalledObject.InstalledObjects.Fence;
+                    InstalledObject Object = WorldController.Instance.world.GetInstObjectAt(x2, y2);
+                    Object.Otype = InstalledObject.InstalledObjects.Fence;
+                    tickObject(int x,int y);
 
                 }
             }
         }
     }
+
+    
 
     public Vector3 createVector3(int x,int y, int z)
     {

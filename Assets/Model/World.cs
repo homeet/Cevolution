@@ -26,7 +26,7 @@ public class World : MonoBehaviour
         }
     }
 
-    public World(int width = 256, int height = 256)
+    public World(int width = 128, int height = 128)
     {
         this.width = width;
         this.height = height;
@@ -118,6 +118,25 @@ public class World : MonoBehaviour
             }
         }
 
+    }
+
+
+
+    public void fillMapWithInstObjects()
+    {
+        for (int x = 0; x > WorldController.Instance.world.width; x++)
+        {
+            for (int y = 0; y > WorldController.Instance.world.height; y++)
+            {
+                InstObj[x, y] = new InstalledObject(x,y,0);
+                GameObject obj_go = new GameObject();
+                obj_go.name = "Object" + x + "_" + y;
+                InstalledObject obj_data = WorldController.Instance.world.GetInstObjectAt(x, y);
+                obj_data.actualObj = obj_go;
+                obj_go.AddComponent<SpriteRenderer>();
+                obj_go.SetActive(false);
+            }
+        }
     }
 
 

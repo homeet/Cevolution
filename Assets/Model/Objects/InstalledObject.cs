@@ -8,11 +8,7 @@ public class InstalledObject{
         StoneWall,Fence
     }
     int x, y,type;
-
-
-
-
-
+    public GameObject actualObj;
 
     public int X
     {

@@ -63,6 +63,7 @@ public class WorldController : MonoBehaviour {
         }
         //not so empty
         world.GenerateWorldTiles();
+        world.fillMapWithInstObjects();
 
         //chunk gen
         for (int cX = 0; cX < world.Width / world.chunkLength; cX++) {
@@ -81,11 +82,11 @@ public class WorldController : MonoBehaviour {
                 }
             }
         }
-        for (int i = 0; i < 3; i++)
+        /*for (int i = 0; i < 3; i++)
         {
             Villager villager = new Villager(getMid(world.Width), getMid(world.Height));
             villagers.Add(villager);
-        }
+        }*/
         
     }
 
@@ -93,11 +94,10 @@ public class WorldController : MonoBehaviour {
     float time = 0f;
     // Update is called once per frame
     void Update () {
-
         foreach (GameObject o in world.chunks)
         {
 
-                if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > Camera.main.orthographicSize + 30)
+            if (Vector2.Distance(o.transform.position, Camera.main.transform.position) > (Camera.main.orthographicSize + ((Screen.width + Screen.height)/30)))
                 {
                     o.SetActive(false);
                 }
@@ -127,12 +127,35 @@ public class WorldController : MonoBehaviour {
         tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
         tile_go.transform.SetParent(this.transform, true);
     }
+    void OnInstChanged(InstalledObject tile_data, GameObject tile_go)
+    {
+
+        if (tile_data.Otype == InstalledObject.InstalledObjects.StoneWall)
+        {
+            tile_go.GetComponent<SpriteRenderer>().sprite = StoneWall;
+        }
+        else {
+            Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
+        }
+        tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
+        tile_go.transform.SetParent(this.transform, true);
+    }
+
     public Tile GetTileAtWorldCoord(Vector3 coord)
     {
         int x = Mathf.FloorToInt(coord.x);
         int y = Mathf.FloorToInt(coord.y);
 
         return world.GetTileAt(x, y);
+    }
+
+    public void tickObject(int x,int y)
+    {
+        InstalledObject obj =  world.GetInstObjectAt(x, y);
+        if (obj.Otype == InstalledObject.InstalledObjects.StoneWall)
+        {
+            
+        }
     }
 
 
